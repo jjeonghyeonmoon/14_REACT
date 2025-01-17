@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const root = ReactDOM.createRoot(document.getElementById('root'))
+        
+        // prompt 로 넘어오는 값은 문자열이기 때문에 정수로 파싱
+        const answer = parseInt(prompt('리액트가 재밋나요? \n1.재미있다. \n2.어렵다'));
+
+        console.log(answer);
+
+        // 1. 랜더링 시 조건 비교 후 조건부 랜더링하기 (조건식이 간단할 때 사용)
+        const positive = <h1>앞으로 더 짜릿할겁니다.ㅎㅎㅎㅎㅎㅎㅎ</h1>
+        const negative = <h1>복습만이 살 길입니다.파이팅!</h1>
+
+        root.render(
+            (answer === 1) ? positive : negative
+        );
+
+    </script>
+</body>
+</html>
