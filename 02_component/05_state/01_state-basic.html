@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+
+</head>
+<body>
+    <div id="root"></div>
+    
+
+    <!-- 
+        state 란?
+        state 는 컴포넌트 내부에서 바꿀 수 있는 (바뀔 수 있는) 값을 의미한다.
+        props 는 컴포트가 사용되는 과정에서 부모 컴포넌트가 설정하고 주는 
+        읽기 전용의 값이지만, state 는 컴포넌트 내부에서 설정되는 값이다.
+        우리는 state 를 관리하며 다양한 작업을 할 수 있다.
+
+        리액트는 클래스형 컴포넌트를 사용하면 state 를 직접 사용할 수 있다.
+        하지만 함수형 컴포넌트에서는 직접적으로 state 를 사용할 수  없으며
+        useState 라는 hooks 를 이용해서 할 수 있다.
+        
+        우선은 state 에 대해 알기 위해 클래스형
+
+    -->
+
+    <script type="text/babel">
+        class Counter extends React.Component {
+
+            /* 클래스형 컴포넌트 생성 시 가장 먼저 호출되는 생성자 함수 */
+            constructor(props){
+                console.log('생성자 호출함....')
+
+                    /* props 는 부모로 부터 전달을 받게 된다. 전달 받은 props 를
+                        부모 클래스의 생성자에 전달하며 컴포넌트를 생성하게 된다.
+                    */
+                super(props);
+
+                /* 생성자 내부에서 관리할 값 즉 state 사용방법
+                    1.state 는 this. 명시해야 한다.
+                    2.변수명은 반드시 state 이어야 한다.
+                    3. state 에 저장되는 값의 형태는 반드시 Object 리터럴 형식
+                */
+               this.state = {
+                number : 0 // 컴포넌트 내부에서 관리 할 값 정의
+               };
+            }
+            
+
+            render(){
+                        console.log('render 함수 호출함....')
+                        /* state 에 저장된 number 를 꺼내와보자. */
+                        const {number} = this.state;
+
+                        /*
+                            1.관리하고 있는 state 에 변호 ㅏ주기
+                            state에 객체형태로 컴포넌트가 관리할 값들이 저장되었을 떄
+                            state 에 변화를 주고 싶으면 state 객체의 프로퍼티에 접근하여
+                            직접 수정을 하거나,state 의 setter 메소드를 사용하여 바꿀 수 있다.
+
+                            2.state 에 변화를 줘서 render() 재호출
+                            setState() 를 통해 state 에 변화를 주며 render() 함수는
+                            재호출이 되게 된다. 그러면 render()가 반환하는 새로운
+                            엘리먼트로 가상DOM에 전달하게 되고, 가상돔은 실제돔과
+                            비교를 통해 변한 부분만 다시 그려주게된다.
+                        */
+                return(
+                    <>
+                        <h1>현재 number :{number} </h1>
+                        <button onClick={() => this.setState({number : number -1})}>-1</button>
+                        <button onClick={() => this.setState({number : number +1})}>+1</button>
+                    </>
+                );
+            }    
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+        .render(<Counter/>);
+    </script>
+</body>
+</html>
