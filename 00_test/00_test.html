@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+
+    <style>
+        .button {
+            background-color: #FF5A5A;
+            margin-left: 1em;
+            border-radius: 1ex;   
+            
+        }
+
+        .input{
+            border-radius:1ex;
+        }
+
+        ul{
+            padding: 0;
+        }
+
+
+        li {
+        background-color:#FFF0F0 ;
+    border: 1px solid #FF6464;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const {useState} = React
+        
+        // Header 컴포넌트
+    function Header() {
+        return (
+            <header style={{ backgroundColor: 'pink', color: 'white', padding: '1em', textAlign: 'center' }}>
+                <h1>정현이의 할일! 2025.1.22.</h1>
+            </header>
+        );
+    }
+
+       // Footer 컴포넌트
+       function Footer() {
+        return (
+            <footer style={{ backgroundColor: 'pink', color: 'white', padding: '1em', textAlign: 'center', marginTop: '2em' }}>
+                <p>© Copyright 2022. team-greedy all rights reserved.</p>
+            </footer>
+        );
+    }
+
+
+        function TodoList(){
+            // 상태관리
+            const [tasks,setTasks] = useState([]);
+            //입력창
+            const [text,setText] = useState('');
+        
+
+        const onChangeHandler = (e) => setText(e.target.value)
+
+       // 할 일 추가
+       const addTask = () => {
+            const newTask = { id: Date.now(), name: text}; 
+            setTasks([...tasks, newTask]);
+            setText('');
+        };
+
+        const deleteTask = id =>{
+            const filterTasks = tasks.filter(task => task.id !== id);
+
+            setTasks(filterTasks);
+        }
+
+
+            
+        const taskList = tasks.map(task => (
+            <li key={task.id}>
+                {task.name}
+                <button onClick={() => deleteTask(task.id)}>❌</button>
+            </li>
+        ));
+                // const userList = users.map(user => <li key={user.id} onDoubleClick={() => onRemove(user.id)}>{user.name}</li>);
+
+        
+            
+                return (
+            <div>
+                <Header /> {/* 헤더 컴포넌트ㅎ */}
+                <main style={{ padding: '1em', textAlign: 'center' }}>
+                    <h1>ToDo-List</h1>
+                    
+                    <ul>{taskList}</ul>
+                    
+                    <input
+                        className= "input"
+                        type="text"
+                        value={text}
+                        onChange={onChangeHandler}
+                        placeholder="할 일을 입력해주세염ㅎㅎㅎ"
+                    />
+                    <button className="button" onClick={addTask}>추가하기</button>
+                </main>
+                <Footer /> {/* 푸터 컴포넌트ㅎ */}
+            </div>
+        );
+    }
+        
+
+        ReactDOM.createRoot(document.getElementById('root'))
+        .render(<TodoList/>);
+    </script>
+</body>
+</html>
