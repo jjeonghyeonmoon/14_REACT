@@ -40,6 +40,12 @@
            
 
             const hardSum = hardCalculator(hardNumber);
+            /*
+                시간이 얼마 걸리지 않는 연산을 수행해서 state 를 변경 할 때도
+                다시 화면을 리 랜더링 하기 위해 해당 app 컴포넌트를 다시 실행하기 떄문에
+                지역변수 초기화가 update 시 마다 이루어지게 된다.
+                따라서 우리가 쉬운 계산기를 update 하더라도 hardCalculator 가 같이 수행하게 된다.
+            */
             const easySum = easyCalculator(easyNumber);
 
         
