@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,59 +11,72 @@
 </head>
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
 
-    /*
-        1. 관리 할 상태값 = input 검색어, image
-        2. 발생하는 이벤트 = input change, 검색 click
-        3. 컴포넌트 = App, searchBox, imageBox
-        4. 시점 = 검색 버튼 누를 시 이미지 경로 set
-    */
+        /*
+            1. 관리 할 상태값 = input 검색어, image
+            2. 발생하는 이벤트 = input change, 검색 click
+            3. 컴포넌트 = App, searchBox, imageBox
+            4. 시점 = 검색 버튼 누를 시 이미지 경로 set
+        */
 
-    function App() {
-        const[imgUrl, setImgUrl] = useState('');
+        const {useState} = React;
 
-        return(
-            <>
-                <SearchBox setImgUrl={setImgUrl}/>
-                <br/>
-                {/*<ImageBox imgUrl={imgUrl}/>*/}
-            </>
-        );
+        function App() {
+            
+            const [imgUrl, setImgUrl] = useState('');
 
-    }
-    // 전달받은 PROPS 구조분해 할당
-    function SearchBox({setImgUrl}){
-
-        // input 창에 입력 할 이미지 이름 관리
-        const [imageName, setImageName] = useState('');
-
-        const onChangeHandler = e => {
-            setImageName(e.target.value)
+            return(
+                <>
+                    <SearchBox setImgUrl={setImgUrl}/>
+                    <br/>
+                    <ImageBox imgUrl={imgUrl}/>
+                </>
+            );
         }
 
-        const onClickHandler = () => {
-            // 버튼 클릭 시 api 로부터 이모지 데이터를 조회한다.
-            // 1. fetch
-            fetch('https://api.github.com/emojis')
-            .then(res => res.json())
-            .then(data =>{
-                console.log(data);
-            })
+        // 전달받은 props 구조분해 할당
+        function SearchBox({setImgUrl}) {
+
+            // input 창에 입력 할 이미지 이름 관리
+            const [imageName, setImageName] = useState('');
+
+            const onChangeHandler = e => {
+                setImageName(e.target.value);
+            }
+            
+            const onClickHandler = () => {
+                // 버튼 클릭 시 api 로부터 이모지 데이터를 조회한다.
+
+                // 1. fetch
+                fetch('https://api.github.com/emojis')
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        setImgUrl(data[imageName])
+                    })
+
+            }
+
+            return(
+                <>
+                    <input type="text" onChange={onChangeHandler}/>
+                    <button onClick={onClickHandler}>검색</button>
+                </>
+            );
+
         }
 
-        return(
-            <>
-                <input type="text" onChange={onChangeHandler}/>
-                <button onClick={onClickHandler}>검색</button>
-            </>
-        );
-    }
+        function ImageBox({imgUrl}) {
 
+            return !!imgUrl ? <img src={imgUrl}/> : <h1>검색 결과 없음</h1>
 
+        }
 
-ReactDOM.createRoot(document.getElementById('root'))
-.render(<App/>);
+        ReactDOM.createRoot(document.getElementById('root'))
+        .render(<App/>);
     </script>
+
 </body>
 </html>
