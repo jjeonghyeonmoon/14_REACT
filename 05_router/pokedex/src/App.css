@@ -1,0 +1,60 @@
+/* 전체 페이지 스타일 */
+/* 포켓볼 패턴 배경 */
+body {
+    background-color: #f2f2f2;
+    /* background-image: url("/images/686170.jpg") !important; */
+    background-size: 100px 100px;
+    background-repeat: repeat;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+  }
+  
+  
+  /* 제목 */
+  h1 {
+    font-size: 2.5rem;
+    color: #ffcc00;
+    text-shadow: 3px 3px 0px #3b4cca, 6px 6px 0px #ff3d3d;
+    margin-bottom: 20px;
+  }
+  
+  /* 포켓몬 리스트 스타일 */
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  /* 포켓몬 리스트 아이템 */
+  li {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  li:hover {
+    transform: scale(1.1);
+  }
+  
+  /* 포켓몬 링크 버튼 */
+  a {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px;
+    background: #ff3d3d;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  a:hover {
+    background: #3b4cca;
+  }
+  
