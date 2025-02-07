@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@8.0.4/dist/react-redux.js"></script>
+    <script src="https://unpkg.com/redux-actions@2.6.5/dist/redux-actions.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        /* ✅ 1. Redux에서 사용할 함수 가져오기 */
+        const {Provider, useSelector, useDispatch} = ReactRedux;
+        const {createStore} = Redux;
+        const {createAction, createActions, handleActions} = ReduxActions;
+
+        /* ✅ 2. 초기 상태 설정 */
+        const initCount = 0;
+
+        /* ✅ 3. Action(행동 명령어) 만들기 */
+        const INCREMENT = 'count/INCREASE';  // 증가 액션 타입
+        const DECREMENT = 'count/DECREASE';  // 감소 액션 타입
+
+        /* ✅ 4. Action 생성 함수 만들기 */
+        const {count: {increase, decrease}} = createActions({
+            [INCREMENT]: (amount = 1) => ({incrementValue: amount}),
+            [DECREMENT]: (amount = 1) => ({decrementValue: amount})
+        });
+
+        /* ✅ 5. Reducer(상태 변경 함수) 만들기 */
+        const reducer = handleActions({
+            [INCREMENT]: (state, {payload: {incrementValue}}) => {
+                return state + incrementValue;  // 증가한 값 반환
+            },
+            [DECREMENT]: (state, {payload: {decrementValue}}) => {
+                return state - decrementValue;  // 감소한 값 반환
+            }
+        }, initCount);  // 초기 상태 전달
+
+        /* ✅ 6. Redux Store 생성 (중앙 데이터 저장소) */
+        const store = createStore(
+            reducer,
+            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // 개발자도구 연결
+        );
+
+        /* ✅ 7. React 컴포넌트 - 카운트 UI */
+        function Count() {
+            const count = useSelector(state => state);  // Redux에서 state 가져오기
+            const dispatch = useDispatch();  // Redux의 dispatch 가져오기
+
+            /* ✅ 8. 증가 버튼 클릭 시 실행될 함수 */
+            const increaseCount = () => {
+                dispatch(increase());  // 증가 액션 실행
+            };
+
+            /* ✅ 9. 감소 버튼 클릭 시 실행될 함수 */
+            const decreaseCount = () => {
+                dispatch(decrease());  // 감소 액션 실행
+            };
+
+            /* ✅ 10. UI 렌더링 */
+            return (
+                <>
+                    <h1>Count: {count}</h1>
+                    <button onClick={increaseCount}>+ 1</button>
+                    <button onClick={decreaseCount}>- 1</button>
+                </>
+            );
+        }
+
+        /* ✅ 11. React + Redux 연결 */
+        ReactDOM.createRoot(document.getElementById('root'))
+            .render(
+                <Provider store={store}> {/* Redux Store를 전체 앱에 적용 */}
+                    <Count/>  {/* Count 컴포넌트 렌더링 */}
+                </Provider>
+            );
+
+    </script>
+</body>
+</html>
